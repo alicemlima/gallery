@@ -1,9 +1,42 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import React from 'react'
 
+import styles from '../styles/Home.module.css'
+import Images from '../components/Images'
+import Pages from '../components/Pages'
 const Home: NextPage = () => {
+  const [data, setData] = React.useState({});
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [postsPerPage, setPostsPerPage] = React.useState(12);
+  const [totalPages, setTotalPages] = React.useState(12);
+  
+  React.useEffect(() => {
+    fetch('https://api.artic.edu/api/v1/artworks')
+    .then((respostaServer) => {
+      return respostaServer.json();
+    })
+    .then((respostaConvertida) => {
+      console.log("resposta: ", respostaConvertida)
+      setData(respostaConvertida.data);
+      setTotalPages(respostaConvertida.pagination.total_pages);
+      setCurrentPage(respostaConvertida.pagination.current_page);
+      setPostsPerPage(respostaConvertida.pagination.limit);
+    })
+  }, []);
+
+    // Pagination
+    const previousClickHandler = () => {
+      setCurrentPage(currentPage - 1);
+    };
+    const nextClickHandler = () => {
+      setCurrentPage(currentPage + 1);
+    };
+    const pageChangeHandler = (page: number) => {
+      setCurrentPage(page);
+    };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,55 +49,12 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <Images src='https://s1.static.brasilescola.uol.com.br/be/conteudo/images/as-montanhas-diferenciam-se-pela-altitude-mais-elevada-em-relacao-as-outras-formas-relevo-5926cccf2e122.jpg' wdt={200} hgt={100}/>
+      
+        <Pages 
+        currentPage={currentPage} 
+        onPreviousClick={previousClickHandler} />
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
