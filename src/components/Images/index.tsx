@@ -8,8 +8,10 @@ interface imageProps {
 }
 
 export default function Images(props: imageProps) {
+  console.log("src", props.src)
   return (
     <>
+    
       <img 
        src={props.src}
        height={props.hgt}
