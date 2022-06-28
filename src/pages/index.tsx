@@ -16,7 +16,7 @@ const Home: NextPage = () => {
   
 
   React.useEffect(() => {
-    fetch('https://api.artic.edu/api/v1/artworks')
+    fetch('https://api.artic.edu/api/v1/artworks?page=4&limit=100')
     .then((respostaServer) => {
       return respostaServer.json();
     })

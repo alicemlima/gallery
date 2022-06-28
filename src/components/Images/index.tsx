@@ -3,8 +3,8 @@ import styles from './styles.module.css';
 
 interface imageProps {
   src: string;
-  hgt: number;
-  wdt: number;
+  hgt?: number;
+  wdt?: number;
 }
 
 export default function Images(props: imageProps) {

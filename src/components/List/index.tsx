@@ -10,24 +10,22 @@ interface listProps {
 
 export default function List(props: listProps) {
     const posts = _.range(props.perPage);
-    const str = 'image_id' as String;
-    // console.log(typeof props.data)
-    posts.map((posts) => {
-        if(props.data[posts] === undefined){
-            return (
-                console.log("Não tem imagem")
-            )
-        }
-        return (
-
-            <>
-           { console.log(props.data[posts].image_id)}
-            <Images src={"https://www.artic.edu/iiif/2" + props.data[posts]} wdt={200} hgt={200} />
-            {console.log(posts)}
-            </>
-        )
-    })
     return (
-        <></>
+        <>
+            {
+            posts.map((posts) => {
+                if(props.data[posts] === undefined || props.data[posts].image_id === null) {
+                    return (
+                        console.log("Não tem imagem")
+                    )
+                }
+                return (
+                    <>
+                    <Images src={"https://www.artic.edu/iiif/2/" + props.data[posts].image_id + "/full/200,/0/default.jpg"} />
+                    </>
+                )
+            })
+            }
+        </>
     )
 }
