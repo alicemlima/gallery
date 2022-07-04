@@ -1,0 +1,6 @@
+.padding {
+    padding: 1vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
